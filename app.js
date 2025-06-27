@@ -7,13 +7,25 @@ function navigate(view) {
 
   switch (view) {
     case "states":
-      renderGrid(states, "states");
+      renderGrid(data.usStates.map(name => ({ name })), "states");
       break;
     case "counties":
-      renderGrid(gaCounties.map(name => ({ name })), "counties");
+      renderGrid(data.georgiaCounties.map(name => ({ name })), "counties");
       break;
-    case "specialty":
-      renderGrid(specialtyPlates, "specialty");
+    case "georgia-specialty":
+      renderGrid(data.georgiaSpecialtyPlates.map(name => ({ name })), "georgia-specialty");
+      break;
+    case "florida-specialty":
+      renderGrid(data.floridaSpecialtyPlates.map(name => ({ name })), "florida-specialty");
+      break;
+    case "military":
+      renderGrid(data.militaryPlates.map(name => ({ name })), "military");
+      break;
+    case "territories":
+      renderGrid(data.usTerritories.map(name => ({ name })), "territories");
+      break;
+    case "canada":
+      renderGrid(data.canadianProvinces.map(name => ({ name })), "canada");
       break;
     case "trips":
       renderTripsView();
