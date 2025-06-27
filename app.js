@@ -74,7 +74,7 @@ function loadData(key) {
   if (currentTrip && currentLeg) {
     const trips = getTrips();
     const trip = trips.find(t => t.name === currentTrip);
-    return trip[currentLeg] || [];
+    return trip[currentLeg][key] || [];
   } else {
     return JSON.parse(localStorage.getItem(key) || "[]");
   }
@@ -84,7 +84,7 @@ function saveData(key, data) {
   if (currentTrip && currentLeg) {
     const trips = getTrips();
     const trip = trips.find(t => t.name === currentTrip);
-    trip[currentLeg] = data;
+    trip[currentLeg][key] = data;
     localStorage.setItem("trips", JSON.stringify(trips));
   } else {
     localStorage.setItem(key, JSON.stringify(data));
@@ -134,17 +134,34 @@ function renderTripsView() {
     <button type="submit">Add Trip</button>
   `;
   form.onsubmit = e => {
-    e.preventDefault();
-    const trip = {
-      name: form.name.value,
-      startDate: form.startDate.value,
-      endDate: form.endDate.value,
-      toTrip: [],
-      fromTrip: []
-    };
-    saveTrip(trip);
-    navigate('trips');
+  e.preventDefault();
+  const trip = {
+    name: form.name.value,
+    startDate: form.startDate.value,
+    endDate: form.endDate.value,
+    toTrip: {
+      states: [],
+      counties: [],
+      "georgia-specialty": [],
+      "florida-specialty": [],
+      military: [],
+      territories: [],
+      canada: []
+    },
+    fromTrip: {
+      states: [],
+      counties: [],
+      "georgia-specialty": [],
+      "florida-specialty": [],
+      military: [],
+      territories: [],
+      canada: []
+    }
   };
+  saveTrip(trip);
+  navigate('trips');
+};
+
 
   view.appendChild(list);
   view.appendChild(form);
