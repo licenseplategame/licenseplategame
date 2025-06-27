@@ -11,9 +11,13 @@
   <div id="app">
     <h1>License Plate Tracker</h1>
     <nav>
-      <button onclick="navigate('states')">States</button>
+      <button onclick="navigate('states')">U.S. States</button>
       <button onclick="navigate('counties')">GA Counties</button>
-      <button onclick="navigate('specialty')">Specialty Plates</button>
+      <button onclick="navigate('georgia-specialty')">GA Specialty Plates</button>
+      <button onclick="navigate('florida-specialty')">FL Specialty Plates</button>
+      <button onclick="navigate('military')">Military Plates</button>
+      <button onclick="navigate('territories')">U.S. Territories</button>
+      <button onclick="navigate('canada')">Canadian Provinces</button>
       <button onclick="navigate('trips')">Trips</button>
     </nav>
     <input type="text" id="searchBox" placeholder="Search..." oninput="filterItems()"/>
