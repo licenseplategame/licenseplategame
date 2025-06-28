@@ -7,25 +7,25 @@ function navigate(view) {
 
   switch (view) {
     case "states":
-      renderGrid(data.usStates.map(name => ({ name })), "states");
+      renderGrid(data.usStates, "states");
       break;
     case "counties":
-      renderGrid(data.georgiaCounties.map(name => ({ name })), "counties");
+      renderGrid(data.georgiaCounties, "counties");
       break;
     case "georgia-specialty":
-      renderGrid(data.georgiaSpecialtyPlates.map(name => ({ name })), "georgia-specialty");
+      renderGrid(data.georgiaSpecialtyPlates, "georgia-specialty");
       break;
     case "florida-specialty":
-      renderGrid(data.floridaSpecialtyPlates.map(name => ({ name })), "florida-specialty");
+      renderGrid(data.floridaSpecialtyPlates, "florida-specialty");
       break;
     case "military":
-      renderGrid(data.militaryPlates.map(name => ({ name })), "military");
+      renderGrid(data.militaryPlates, "military");
       break;
     case "territories":
-      renderGrid(data.usTerritories.map(name => ({ name })), "territories");
+      renderGrid(data.usTerritories, "territories");
       break;
     case "canada":
-      renderGrid(data.canadianProvinces.map(name => ({ name })), "canada");
+      renderGrid(data.canadianProvinces, "canada");
       break;
     case "trips":
       renderTripsView();
@@ -40,17 +40,14 @@ function renderGrid(items, key) {
   const grid = document.createElement("div");
   grid.className = "grid";
 
-  items.forEach(item => {
+  items.forEach(name => {
     const div = document.createElement("div");
     div.className = "item";
-    div.innerHTML = `
-      ${item.img ? `<img src="${item.img}" alt="${item.name}" />` : ""}
-      <span>${item.name}</span>
-    `;
-    if (isFound(key, item.name)) div.classList.add("found");
+    div.innerHTML = `<span>${name}</span>`;
+    if (isFound(key, name)) div.classList.add("found");
 
     div.onclick = () => {
-      toggleItem(key, item.name);
+      toggleItem(key, name);
       div.classList.toggle("found");
     };
 
@@ -74,7 +71,8 @@ function loadData(key) {
   if (currentTrip && currentLeg) {
     const trips = getTrips();
     const trip = trips.find(t => t.name === currentTrip);
-    return trip[currentLeg][key] || [];
+    if (!trip[currentLeg][key]) trip[currentLeg][key] = [];
+    return trip[currentLeg][key];
   } else {
     return JSON.parse(localStorage.getItem(key) || "[]");
   }
@@ -105,8 +103,7 @@ function filterItems() {
   });
 }
 
-// TRIPS FEATURE BELOW
-
+// Trips functionality (already working)
 function renderTripsView() {
   currentTrip = null;
   currentLeg = null;
@@ -118,7 +115,7 @@ function renderTripsView() {
     const li = document.createElement("li");
     li.innerHTML = `
       <strong>${t.name}</strong> (${t.startDate} → ${t.endDate})<br>
-      To: ${t.toTrip.length} plates, From: ${t.fromTrip.length} plates<br>
+      To: ${countPlates(t.toTrip)} plates, From: ${countPlates(t.fromTrip)} plates<br>
       <button onclick="setTrip('${t.name}', 'toTrip')">Track To</button>
       <button onclick="setTrip('${t.name}', 'fromTrip')">Track From</button>
     `;
@@ -134,37 +131,36 @@ function renderTripsView() {
     <button type="submit">Add Trip</button>
   `;
   form.onsubmit = e => {
-  e.preventDefault();
-  const trip = {
-    name: form.name.value,
-    startDate: form.startDate.value,
-    endDate: form.endDate.value,
-    toTrip: {
-      states: [],
-      counties: [],
-      "georgia-specialty": [],
-      "florida-specialty": [],
-      military: [],
-      territories: [],
-      canada: []
-    },
-    fromTrip: {
-      states: [],
-      counties: [],
-      "georgia-specialty": [],
-      "florida-specialty": [],
-      military: [],
-      territories: [],
-      canada: []
-    }
+    e.preventDefault();
+    const trip = {
+      name: form.name.value,
+      startDate: form.startDate.value,
+      endDate: form.endDate.value,
+      toTrip: createEmptyTripData(),
+      fromTrip: createEmptyTripData()
+    };
+    saveTrip(trip);
+    navigate('trips');
   };
-  saveTrip(trip);
-  navigate('trips');
-};
-
 
   view.appendChild(list);
   view.appendChild(form);
+}
+
+function createEmptyTripData() {
+  return {
+    "states": [],
+    "counties": [],
+    "georgia-specialty": [],
+    "florida-specialty": [],
+    "military": [],
+    "territories": [],
+    "canada": []
+  };
+}
+
+function countPlates(legData) {
+  return Object.values(legData).reduce((sum, plates) => sum + plates.length, 0);
 }
 
 function getTrips() {
@@ -181,5 +177,5 @@ function setTrip(name, leg) {
   currentTrip = name;
   currentLeg = leg;
   alert(`Now tracking: ${name} (${leg === 'toTrip' ? 'To Destination' : 'From Destination'})`);
-  navigate('states');  // default view, adjust if needed
+  navigate('states');
 }
