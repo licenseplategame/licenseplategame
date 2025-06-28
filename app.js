@@ -44,10 +44,12 @@ function renderGrid(items, key) {
     const div = document.createElement("div");
     div.className = "item";
     div.innerHTML = `<span>${name}</span>`;
-    if (isFound(key, name)) div.classList.add("found");
+
+    if (isFound(key, name)) {
+      div.classList.add("found");
+    }
 
     div.onclick = () => {
-      toggleItem(key, name);
       div.classList.toggle("found");
     };
 
@@ -55,6 +57,30 @@ function renderGrid(items, key) {
   });
 
   view.appendChild(grid);
+
+  // If in a trip session, show Save Progress button
+  if (currentTrip && currentLeg) {
+    const saveBtn = document.createElement("button");
+    saveBtn.textContent = "Save Progress";
+    saveBtn.style.marginTop = "1rem";
+    saveBtn.style.padding = "0.6rem 1rem";
+    saveBtn.style.borderRadius = "8px";
+    saveBtn.style.border = "none";
+    saveBtn.style.backgroundColor = "#34a853";
+    saveBtn.style.color = "#fff";
+    saveBtn.style.cursor = "pointer";
+    saveBtn.style.fontSize = "1rem";
+
+    saveBtn.onclick = () => {
+      const allMarked = [...document.querySelectorAll(".item.found")].map(item =>
+        item.textContent.trim()
+      );
+      saveData(key, allMarked);
+      alert("Progress saved for this tab.");
+    };
+
+    view.appendChild(saveBtn);
+  }
 }
 
 function toggleItem(key, name) {
