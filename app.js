@@ -186,7 +186,11 @@ function createEmptyTripData() {
 }
 
 function countPlates(legData) {
-  return Object.values(legData).reduce((sum, plates) => sum + plates.length, 0);
+  if (!legData) return 0;
+  return Object.values(legData).reduce((sum, list) => {
+    if (Array.isArray(list)) return sum + list.length;
+    return sum;
+  }, 0);
 }
 
 function getTrips() {
