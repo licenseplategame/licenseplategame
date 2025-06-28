@@ -15,22 +15,23 @@ h1 {
 
 /* Navigation Tabs: Fixed two-row layout */
 nav {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Exactly four buttons per row */
-  gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 8px;
   margin-bottom: 1rem;
 }
 
 nav button {
-  padding: 0.5rem;
+  flex: 0 1 calc(50% - 12px);
+  padding: 0.6rem;
   font-size: 0.85rem;
+  text-align: center;
   background-color: #e8f0fe;
-  border: none;
   border-radius: 8px;
+  border: none;
   color: #4285f4;
   cursor: pointer;
-  transition: background-color 0.3s;
   box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
