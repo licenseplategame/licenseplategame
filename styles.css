@@ -1,5 +1,6 @@
+/* General Styles */
 body {
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
   margin: 0;
   padding: 1rem;
   background: #f9f9f9;
@@ -8,50 +9,71 @@ body {
 
 h1 {
   text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
 }
 
+/* Navigation Tabs: Fixed two-row layout */
 nav {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* exactly four buttons per row */
-  gap: 8px; /* spacing between buttons */
+  grid-template-columns: repeat(4, 1fr); /* Exactly four buttons per row */
+  gap: 8px;
   justify-content: center;
   margin-bottom: 1rem;
 }
 
 nav button {
   padding: 0.5rem;
-  font-size: 0.85rem; /* Adjust size if needed */
-  box-sizing: border-box;
-  text-align: center;
+  font-size: 0.85rem;
+  background-color: #e8f0fe;
+  border: none;
+  border-radius: 8px;
+  color: #4285f4;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
+nav button:hover {
+  background-color: #d2e3fc;
+}
+
+/* Search box styling */
 #searchBox {
   display: block;
   margin: 0 auto 1rem auto;
-  padding: 0.5rem;
-  width: 80%;
+  padding: 0.6rem;
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
+/* Grid Items */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 0.5rem;
 }
 
 .item {
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   padding: 0.5rem;
   text-align: center;
   cursor: pointer;
-  background: #fff;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   position: relative;
+  transition: transform 0.2s;
 }
 
-.item img {
-  width: 100%;
-  height: auto;
+.item:hover {
+  transform: translateY(-2px);
 }
 
+/* Found item checkmark */
 .item.found::after {
   content: "✔";
   position: absolute;
@@ -61,4 +83,82 @@ nav button {
   color: white;
   padding: 2px 6px;
   border-radius: 50%;
+  font-size: 0.75rem;
+}
+
+/* Trip View styling */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 1rem auto;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+form input, form button {
+  padding: 0.5rem;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+form button {
+  background-color: #4285f4;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+form button:hover {
+  background-color: #357ae8;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  max-width: 400px;
+  margin: 1rem auto;
+}
+
+ul li {
+  background-color: #fff;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+ul li button {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  background-color: #34a853;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+ul li button:hover {
+  background-color: #2c8c46;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 600px) {
+  nav {
+    grid-template-columns: repeat(2, 1fr); /* Two buttons per row on very small screens */
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
 }
