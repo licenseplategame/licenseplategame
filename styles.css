@@ -12,13 +12,18 @@ h1 {
 
 nav {
   display: flex;
-  justify-content: space-around;
+  flex-wrap: wrap; /* allows wrapping onto multiple lines */
+  justify-content: center;
+  gap: 8px; /* Adds spacing between buttons */
   margin-bottom: 1rem;
 }
 
-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+nav button {
+  flex: 1 1 calc(50% - 16px); /* Two buttons per line with some spacing */
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  min-width: 120px; /* Prevents buttons from becoming too small */
+  box-sizing: border-box;
 }
 
 #searchBox {
